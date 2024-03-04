@@ -10,7 +10,7 @@
 - [x] Implementação de hash locais (dicionários)
 - [x] Implementação de clientes e servidores
 - [x] API devidamente tratada (casos de erros/exceções)
-- [ ] Testes automatizados
+- [x] Testes automatizados
 - [x] Múltiplos clientes e servidores
 - [x] Implementação do Pub-Sub (localhost 127.0.0.1 e porta TCP 1883)
 
