@@ -54,4 +54,4 @@ inserção, alteração, etc.
 
 ### Link dos vídeos
 
-[Video da parte 1](colocar_o_link)
+[Video da parte 1](https://youtu.be/l6-IaUENIEc)
