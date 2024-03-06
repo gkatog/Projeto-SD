@@ -20,7 +20,7 @@ class PortalAdministrativoServidor(PortalAdministrativo_pb2_grpc.PortalAdministr
         nome = request.nome
         matricula = request.matricula
 
-        if len(nome) <= 4 or len(matricula) <= 4:
+        if len(nome) < 4 or len(matricula) < 4:
             return PortalAdministrativo_pb2.Status(status=1, msg="Nome ou matricula do aluno é invalido")
 
         if matricula in self.alunos:
@@ -38,7 +38,7 @@ class PortalAdministrativoServidor(PortalAdministrativo_pb2_grpc.PortalAdministr
         nome = request.nome
         matricula = request.matricula
 
-        if len(nome) <= 4 or len(matricula) <= 4:
+        if len(nome) < 4 or len(matricula) < 4:
             return PortalAdministrativo_pb2.Status(status=1, msg="Nome ou matricula do aluno é invalido")
 
         try:
@@ -97,7 +97,7 @@ class PortalAdministrativoServidor(PortalAdministrativo_pb2_grpc.PortalAdministr
         nome = request.nome
         existe = 0
 
-        if len(nome) <= 4 or len(siape) <= 4:
+        if len(nome) < 4 or len(siape) < 4:
             return PortalAdministrativo_pb2.Status(status=1, msg="Nome ou Siape do professor é invalido")
 
         if siape in self.professores:
@@ -115,7 +115,7 @@ class PortalAdministrativoServidor(PortalAdministrativo_pb2_grpc.PortalAdministr
         siape = request.siape
         nome = request.nome
 
-        if len(nome) <= 4 and len(siape) <= 4:
+        if len(nome) < 4 and len(siape) < 4:
             return PortalAdministrativo_pb2.Status(status=1, msg="Nome ou siape do professor é invalido")
 
         try:
@@ -175,7 +175,7 @@ class PortalAdministrativoServidor(PortalAdministrativo_pb2_grpc.PortalAdministr
         nome = request.nome
         vagas = request.vagas
 
-        if len(sigla) <= 4 or len(nome) <= 4 or vagas <= 0:
+        if len(sigla) < 4 or len(nome) < 4 or vagas <= 0:
             return PortalAdministrativo_pb2.Status(status=1, msg="Nome, sigla ou vagas com valor invalido")
 
         if sigla in self.disciplinas:
@@ -194,7 +194,7 @@ class PortalAdministrativoServidor(PortalAdministrativo_pb2_grpc.PortalAdministr
         nome = request.nome
         vagas = request.vagas
 
-        if len(sigla) <= 4 or len(nome) <= 4 or vagas <= 0:
+        if len(sigla) < 4 or len(nome) < 4 or vagas <= 0:
             return PortalAdministrativo_pb2.Status(status=1, msg="Nome, sigla ou vagas com valor invalido")
 
         try:
