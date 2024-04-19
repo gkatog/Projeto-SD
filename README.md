@@ -40,6 +40,7 @@ mosquitto -v
 ./mat-server.sh   <porta1>
 ./admin-client.sh <porta2>
 ./mat-client.sh   <porta2>
+./db.sh           <porta2>
 ```
 
 Utilização: Para utilização dos servidores é feita por meio dos clientes,
