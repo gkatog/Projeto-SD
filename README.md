@@ -5,14 +5,10 @@
 - Gabriel Kato Gomes - 12021BCC037
 - Lucas Daniel Cunha - 12021BCC038
 
-### Requisitos
+### Requisitos - Parte II
 
-- [x] Implementação de hash locais (dicionários)
-- [x] Implementação de clientes e servidores
-- [x] API devidamente tratada (casos de erros/exceções)
-- [x] Testes automatizados
-- [x] Múltiplos clientes e servidores
-- [x] Implementação do Pub-Sub (localhost 127.0.0.1 e porta TCP 1883)
+- [x] Replicar a base de dados para obter tolerância a falhas
+- [x] Particionar a base de dados para aumentar a escalabilidade
 
 ### Estrutura de arquivos
 
@@ -51,7 +47,3 @@ será necessário utilizar a linha de comando criada nos clientes. São simples
 CLI para escolha da opção de um número válido para exercutar alguma opração,
 também (para alguns casos) será necessário informar alguns dados para
 inserção, alteração, etc.
-
-### Link dos vídeos
-
-[Video da parte 1](https://youtu.be/l6-IaUENIEc)
