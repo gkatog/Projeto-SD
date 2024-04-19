@@ -9,13 +9,13 @@ from levelDB import Database
 TInvalidacaoSeg = 60
 
 
-class Cache():
+class Cache:
 
     def __init__(self):
         self.cacheHashTable = dict()
-        self.database = Database()
+        self.database = Database(port=40000, part=1, primary=f'localhost:5000', secundary=[])
 
-    def read(self, key):
+    def read(self, key, types):
         if key in self.cacheHashTable:
             elem = self.cacheHashTable[key]
             timestamp = int(time()) - elem['InsertionTime']
@@ -25,7 +25,7 @@ class Cache():
             else:
                 del self.cacheHashTable[key]
 
-                status, response = self.database.getData(key)
+                status, response = self.database.getData(key, types)
 
                 if status == 'OK':
                     self.cacheHashTable[key] = {'InsertionTime': timestamp, 'Value': response}
@@ -33,7 +33,7 @@ class Cache():
                 else:
                     return None
         else:
-            status, response = self.database.getData(key)
+            status, response = self.database.getData(key, types)
             if status == 'OK':
                 self.cacheHashTable[key] = {'InsertionTime': int(time.time()), 'Value': response}
                 return response
@@ -43,25 +43,28 @@ class Cache():
             else:
                 return None
 
-    def insert(self, key, value):
+    def insert(self, key, value, types):
         elem = {'InsertionTime': int(time()), 'Value': value}
         self.cacheHashTable[key] = elem
-        self.database.insertData(key, value)
+        self.database.insertData(key, value, types)
 
 
 if __name__ == "__main__":
     cache = Cache()
-    # teste
+
+    # Teste
     key = '4408'
     value = 'teste'
 
-    cache.insert(key, value)
+    # Defina o tipo de dado ('aluno', 'professor', 'disciplina', 'turma')
+    types = 'aluno'
 
-    print(cache.read(key))
+    # Insere no cache
+    cache.insert(key, value, types)
 
-    sleep(65)
-
-    print(cache.read(key))
+    # Lê do cache
+    result = cache.read(key, types)
+    print(result)
 
 
 
