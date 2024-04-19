@@ -1,3 +1,5 @@
-grpcio
-grpcio-tools
-paho-mqtt
+paho-mqtt~= 2.0.0
+grpcio~=1.62.2
+grpcio-tools~=1.62.2
+plyvel~=1.5.1
+pysyncobj~=0.3.12
