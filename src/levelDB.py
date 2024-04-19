@@ -12,23 +12,23 @@ class ReplicaControl():
 
     def __init__(self,replicaNum):
 
-        if replicaNum = 0:
+        if replicaNum == 0:
             self.portaSocket = 55021
             self.replica = Database(self.socketPort,'pair','localhost: 51000',['localhost: 51001','localhost: 51002'])
-        if replicaNum = 1:
+        if replicaNum == 1:
             self.portaSocket = 55022
             self.replica = Database(self.socketPort,'pair','localhost: 51001',['localhost: 51000','localhost: 51002'])
-        if replicaNum = 2:
+        if replicaNum == 2:
             self.portaSocket = 55023
             self.replica = Database(self.socketPort,'pair','localhost: 51002',['localhost: 51000','localhost: 51001'])
         
-        if replicaNum = 3:
+        if replicaNum == 3:
             self.portaSocket = 55024
             self.replica = Database(self.socketPort,'odd','localhost: 51003',['localhost: 51004','localhost: 51005'])
-        if replicaNum = 4:
+        if replicaNum == 4:
             self.portaSocket = 55025
             self.replica = Database(self.socketPort,'odd','localhost: 51004',['localhost: 51003','localhost: 51005'])
-        if replicaNum = 5:
+        if replicaNum == 5:
             self.portaSocket = 55026
             self.replica = Database(self.socketPort,'odd','localhost: 51005',['localhost: 51003','localhost: 51004'])
 
@@ -63,7 +63,7 @@ class ReplicaControl():
                 value = jsonResp['value']
 
             if functionName == 'read':
-                response = self.replica,getData(key)
+                response = self.replica.getData(key)
                 
                 if response:
                     response = str(response).replace('\'','"')
