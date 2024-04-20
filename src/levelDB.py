@@ -1,6 +1,5 @@
 import plyvel
-from pysync import SyncObj, replicated
-from lvldb import Database
+from pysyncobj import SyncObj, replicated
 
 import sys
 import socket
@@ -11,6 +10,8 @@ import json
 class ReplicaControl():
 
     def __init__(self,replicaNum):
+        self.socketPort = None
+        self.replica = None
 
         if replicaNum == 0:
             self.portaSocket = 55021
@@ -36,7 +37,7 @@ class ReplicaControl():
     def startSocket(self):
 
         s = socket.socket()
-        host = socket.gethostnome()
+        host = socket.gethostname()
         s.bind((host,self.portaSocket))
         backlog = 50
         s.listen(backlog)
@@ -54,7 +55,8 @@ class ReplicaControl():
         while True:
             data = con.recv(4096)
             msg - data.decode()
-
+            if not msg:
+                break
 
             if msg:
                 jsonResp = json.load(msg)
@@ -71,7 +73,7 @@ class ReplicaControl():
                 resp = json.dumps({'data': response})
 
 
-            if functionName == 'insert'
+            if functionName == 'insert':
                 self.replica.insertData(key,value)
                 resp = json.dumps({'status': 'OK', 'resposta': 'Inserido' })
 
@@ -86,39 +88,69 @@ class ReplicaControl():
             con.send(resp.encode())
 
 
-
-
 class Database(SyncObj):
 
     def __init__(self,port,part,primary,secundary):
         super(Database,self).__init__(primary,secundary)
-        self.database = f'./files/{part}/{port}/' 
-
+        self.database = f'files/{part}/{port}/' 
 
     @replicated
-    def insertData(self,key,value):
+    def insertData(self,key,value,types):
 
         try:
-
-            db = plyvel.DB(self.database,create_if_missing = True)
 
             bytesKey = bytes(key,'utf-8')
-            bytesValue = bytes(value,'utf-8')
-            db.put(bytesKey,bytesValue)
-            db.close()
-            print('create',self.db,key,value,json.dumps({'status':'OK','resposta': 'Inserido'}))
+            
+            stats,resp = self.getData(key, types)
+
+            if types == 'aluno':
+                db = plyvel.DB(self.database+'aluno',create_if_missing = True)
+                if stats is not None:
+                    bytesValue = bytes(resp+value,'utf-8')
+                    db.put(bytesKey,bytesValue)
+            elif types == 'professor':
+                db = plyvel.DB(self.database+'professor',create_if_missing = True)
+                if stats is not None:
+                    bytesValue = bytes(resp+value,'utf-8')
+                    db.put(bytesKey,bytesValue)
+            elif types == 'disciplina':
+                db = plyvel.DB(self.database+'disciplina',create_if_missing = True)
+                if stats is not None:
+                    bytesValue = bytes(resp+value,'utf-8')
+                    db.put(bytesKey,bytesValue)
+            elif types == 'turma':
+                db = plyvel.DB(self.database+'turma',create_if_missing = True)
+                if stats is not None:
+                    bytesValue = bytes(resp + value, 'utf-8')
+                    db.put(bytesKey, bytesValue)
+                    db.close()
+                    print('create', self.database, key, value, json.dumps({'status': 'OK', 'resposta': 'Inserido'}))
+
         except BaseException as e:
-            print('ERROR','create',self.db,key,value,json.dumps({'status':'ERROR','resposta': str(e)}))
+            print('ERROR', 'create', self.database, key, value, json.dumps({'status': 'ERROR', 'resposta': str(e)}))
 
     @replicated
-    def deleteData(self,key):
+    def deleteData(self,key,types):
 
         try:
 
-            db = plyvel.DB(self.database,create_if_missing = True)
+            if types == 'aluno':
+                db = plyvel.DB(self.database+'aluno',create_if_missing = True)
+                bytesKey = bytes(key, 'utf-8')
+                db.delete(bytesKey)
+            elif types == 'professor':
+                db = plyvel.DB(self.database+'professor',create_if_missing = True)
+                bytesKey = bytes(key, 'utf-8')
+                db.delete(bytesKey)
+            elif types == 'disciplina':
+                db = plyvel.DB(self.database+'disciplina',create_if_missing = True)
+                bytesKey = bytes(key, 'utf-8')
+                db.delete(bytesKey)
+            elif types == 'turma':
+                db = plyvel.DB(self.database+'turma',create_if_missing = True)
+                bytesKey = bytes(key, 'utf-8')
+                db.delete(bytesKey)
 
-            bytesKey = bytes(key, 'utf-8')
-            db.delete(bytesKey)
             db.close
             print('delete',self.db,key,json.dumps({'status':'OK','resposta': 'Apagado'}))
         except BaseException as e:
@@ -136,15 +168,34 @@ class Database(SyncObj):
             print('ERROR','update',self.db,key,value,json.dumps({'status':'ERROR','resposta': str(e)}))
 
 
-    def getData(self,key)
+    def getData(self,key,types):
 
         try:
-            db = plyvel.DB(self.database,create_if_missing = True)
-            bytesKey = bytes(key,'utf-8')
 
-            respBytes = db.get(bytesKey)
-            resp = None if not respBytes else respBytes.decode()
-            print('get', self.db, key, json.dumps({'status': 'OK', 'resposta': resp }))
+            if types == 'aluno':
+                db = plyvel.DB(self.database+'aluno',create_if_missing = True)
+                bytesKey = bytes(key,'utf-8')
+                respBytes = db.get(bytesKey)
+                resp = None if not respBytes else respBytes.decode()
+                print('get', self.db, key, json.dumps({'status': 'OK', 'resposta': resp }))
+            elif types == 'professor':
+                db = plyvel.DB(self.database+'professor',create_if_missing = True)
+                bytesKey = bytes(key,'utf-8')
+                respBytes = db.get(bytesKey)
+                resp = None if not respBytes else respBytes.decode()
+                print('get', self.db, key, json.dumps({'status': 'OK', 'resposta': resp }))
+            elif types == 'disciplina':
+                db = plyvel.DB(self.database+'disciplina',create_if_missing = True)
+                bytesKey = bytes(key,'utf-8')
+                respBytes = db.get(bytesKey)
+                resp = None if not respBytes else respBytes.decode()
+                print('get', self.db, key, json.dumps({'status': 'OK', 'resposta': resp }))
+            elif types == 'turma':
+                db = plyvel.DB(self.database+'turma',create_if_missing = True)
+                bytesKey = bytes(key,'utf-8')
+                respBytes = db.get(bytesKey)
+                resp = None if not respBytes else respBytes.decode()
+                print('get', self.db, key, json.dumps({'status': 'OK', 'resposta': resp }))
             db.close()
             return 'OK',resp
 
@@ -152,18 +203,17 @@ class Database(SyncObj):
             return 'ERROR',str(e)
 
 
-    if __name__ == "__main__":
+if __name__ == "__main__":
 
-        if sys.argv and sys.argv[1] and sys.argv[1].isnumeric():
-            replicaNum = int(sys.argv[1])
+    if len(sys.argv) > 1 and sys.argv[1].isnumeric():
+        replicaNum = int(sys.argv[1])
 
-            if replicaNum not in [0,1,2,3,4,5]:
-                print("Choose one between 0 and 5")
-                sys.exit(-1)
-            else :
-                print('Initializing replica' + str(replicaNum))
-                replica = Database(replicaNum) 
-                print('Connecting socket and portal')
-                replica.startSocket()
-
-        
+        if replicaNum not in [0,1,2,3,4,5]:
+            print("Choose one between 0 and 5")
+            sys.exit(-1)
+        else :
+            print('Initializing replica' + str(replicaNum))
+            replica = ReplicaControl(replicaNum)  
+            print('Connecting socket and portal')
+            replica.startSocket()
+            
