@@ -16,6 +16,12 @@ Dentro da pasta __src__ estão todos os arquivos necessários para execução do
 Já na pasta principal do projeto estão os arquivos necessários para executar os códigos dentro da pasta __src__
 e o arquivo de dependências do projeto.
 
+### Dificuldades
+
+Enfrentamos dificuldade em baixar as bibliotecas plyvel e pysyncobj no Windowns, mesmo tentando de tudo, como baixar
+o Visual Studio Code, para tentar baixar a biblioteca, não obtivemos sucesso, deste modo, usamos o WSL, que por meio
+dele conseguimos baixar estas bibliotecas.
+
 ### Intalação e execução
 
 Clone o repositório do projeto:
