@@ -18,7 +18,7 @@ e o arquivo de dependências do projeto.
 
 ### Dificuldades
 
-Enfrentamos dificuldade em baixar as bibliotecas plyvel e pysyncobj no Windowns, mesmo tentando de tudo, como baixar
+Enfrentamos dificuldade em baixar as bibliotecas plyvel e pysyncobj no Windows, mesmo tentando de tudo, como baixar
 o Visual Studio Code, para tentar baixar a biblioteca, não obtivemos sucesso, deste modo, usamos o WSL, que por meio
 dele conseguimos baixar estas bibliotecas.
 
@@ -54,3 +54,4 @@ será necessário utilizar a linha de comando criada nos clientes. São simples
 CLI para escolha da opção de um número válido para exercutar alguma opração,
 também (para alguns casos) será necessário informar alguns dados para
 inserção, alteração, etc.
+
